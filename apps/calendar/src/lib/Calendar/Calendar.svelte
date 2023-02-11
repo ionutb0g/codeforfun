@@ -1,31 +1,33 @@
 <script lang="ts">
 	import { ChevronLeftIcon, ChevronRightIcon } from 'svelte-feather-icons';
 	import DayButton from './DayButton.svelte';
-	import { getDaysInMonth, startOfMonth, getDay, subMonths } from 'date-fns';
+	import { format, getDaysInMonth, startOfMonth, getDay, addMonths, subMonths } from 'date-fns';
+	import { ro } from 'date-fns/locale';
 	import { range, reversedRange } from '$lib/utils/range';
 
-	// const now = new Date(2023, 0, 1);
-	const now = new Date();
+	let currentMonth = new Date();
 
-	$: numberOfDays = getDaysInMonth(now);
-	$: firstDayOfFirstWeek = (getDay(startOfMonth(now)) + 6) % 7;
+	$: numberOfDays = getDaysInMonth(currentMonth);
+	$: firstDayOfFirstWeek = (getDay(startOfMonth(currentMonth)) + 6) % 7;
 
-	$: numberOfDaysOfPreviousMonth = getDaysInMonth(subMonths(now, 1));
+	$: numberOfDaysOfPreviousMonth = getDaysInMonth(subMonths(currentMonth, 1));
 	$: numberOfDaysLeftFromNextMonth = (7 - ((numberOfDays + firstDayOfFirstWeek) % 7)) % 7;
+
+	$: currentDate = format(currentMonth, 'MMMM yyyy', { locale: ro });
 </script>
 
 <div class="divide-y">
 	<header class="px-4 py-2 flex justify-between items-center">
-		<button>
+		<button on:click={() => (currentMonth = subMonths(currentMonth, 1))}>
 			<ChevronLeftIcon
 				size="24"
 				class="w-10 h-10 p-2 rounded-full hover:bg-blue-50 transition-colors"
 			/>
 		</button>
 		<button class="px-2 py-1">
-			<span class="text-xl font-semibold">Noiembrie 2023</span>
+			<span class="text-xl font-semibold capitalize">{currentDate}</span>
 		</button>
-		<button>
+		<button on:click={() => (currentMonth = addMonths(currentMonth, 1))}>
 			<ChevronRightIcon
 				size="24"
 				class="w-10 h-10 p-2 rounded-full hover:bg-blue-50 transition-colors"

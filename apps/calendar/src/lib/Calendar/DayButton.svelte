@@ -4,10 +4,15 @@
 </script>
 
 <button
+	on:click
 	{disabled}
-	class="p-2 rounded w-full grid place-items-center transition-colors font-semibold disabled:text-slate-400"
+	class="rounded-2xl w-full aspect-square grid place-items-center transition-colors group"
 	class:hover:bg-blue-500={!disabled}
-	class:hover:text-white={!disabled}
 >
-	{day}
+	<span
+		class="text-xs font-semibold group-disabled:text-slate-400"
+		class:group-hover:text-white={!disabled}
+	>
+		{day}
+	</span>
 </button>
