@@ -2,7 +2,7 @@
 	import { ChevronLeftIcon, ChevronRightIcon } from 'svelte-feather-icons';
 	import DayButton from './DayButton.svelte';
 	import { format, getDaysInMonth, startOfMonth, getDay, addMonths, subMonths } from 'date-fns';
-	import { ro } from 'date-fns/locale';
+	import ro from 'date-fns/locale/ro/index';
 	import { range, reversedRange } from '$lib/utils/range';
 
 	let currentMonth = new Date();
