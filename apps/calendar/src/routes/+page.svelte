@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Calendar from '$lib/Calendar/Calendar.svelte';
+	import DatePicker from '$lib/components/DatePicker.svelte';
 </script>
 
 <h1>Welcome to Calendar</h1>
@@ -8,8 +8,8 @@
 
 <input type="date" class="w-64 h-12 bg-red-50" />
 
-<main class="p-8">
+<main class="group p-8">
 	<div class="w-96 shadow-md rounded-lg p-2">
-		<Calendar />
+		<DatePicker />
 	</div>
 </main>

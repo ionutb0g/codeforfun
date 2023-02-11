@@ -1,9 +1,12 @@
 <script lang="ts">
 	import { ChevronLeftIcon, ChevronRightIcon } from 'svelte-feather-icons';
-	import DayButton from './DayButton.svelte';
 	import { format, getDaysInMonth, startOfMonth, getDay, addMonths, subMonths } from 'date-fns';
 	import ro from 'date-fns/locale/ro/index';
 	import { range, reversedRange } from '$lib/utils/range';
+	import DayButton from './DayButton.svelte';
+	import Button from './Button.svelte';
+	import IconButton from './IconButton.svelte';
+	import Pressable from './Pressable.svelte';
 
 	let currentMonth = new Date();
 
@@ -18,21 +21,19 @@
 
 <div class="divide-y">
 	<header class="px-4 py-2 flex justify-between items-center">
-		<button on:click={() => (currentMonth = subMonths(currentMonth, 1))}>
-			<ChevronLeftIcon
-				size="24"
-				class="w-10 h-10 p-2 rounded-full hover:bg-blue-50 transition-colors"
-			/>
-		</button>
-		<button class="px-2 py-1">
-			<span class="text-xl font-semibold capitalize">{currentDate}</span>
-		</button>
-		<button on:click={() => (currentMonth = addMonths(currentMonth, 1))}>
-			<ChevronRightIcon
-				size="24"
-				class="w-10 h-10 p-2 rounded-full hover:bg-blue-50 transition-colors"
-			/>
-		</button>
+		<IconButton on:click={() => (currentMonth = subMonths(currentMonth, 1))}>
+			<ChevronLeftIcon size="24" />
+		</IconButton>
+
+		<Pressable pressLevel="low">
+			<div class="px-2 py-1">
+				<span class="text-xl font-semibold capitalize">{currentDate}</span>
+			</div>
+		</Pressable>
+
+		<IconButton on:click={() => (currentMonth = addMonths(currentMonth, 1))}>
+			<ChevronRightIcon size="24" />
+		</IconButton>
 	</header>
 	<div class="p-4 grid grid-cols-7 gap-1 place-items-center text-xs">
 		<div class="text-slate-700">Lu</div>
@@ -59,11 +60,7 @@
 	</div>
 
 	<footer class="flex justify-end gap-2 px-4 py-2">
-		<button class="px-4 py-2 rounded-lg hover:bg-blue-50 transition-colors">
-			<span class="text-sm font-semibold">Cancel</span>
-		</button>
-		<button class="px-4 py-2 rounded-lg hover:bg-blue-50 transition-colors">
-			<span class="text-sm font-semibold">Ok</span>
-		</button>
+		<Button>Cancel</Button>
+		<Button>Ok</Button>
 	</footer>
 </div>
