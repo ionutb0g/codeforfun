@@ -24,13 +24,9 @@
 		<IconButton on:click={() => (currentMonth = subMonths(currentMonth, 1))}>
 			<ChevronLeftIcon size="24" />
 		</IconButton>
-
-		<Pressable pressLevel="low">
-			<div class="px-2 py-1">
-				<span class="text-xl font-semibold capitalize">{currentDate}</span>
-			</div>
-		</Pressable>
-
+		<button class="pressable-sm px-2 py-1">
+			<span class="text-xl font-semibold capitalize">{currentDate}</span>
+		</button>
 		<IconButton on:click={() => (currentMonth = addMonths(currentMonth, 1))}>
 			<ChevronRightIcon size="24" />
 		</IconButton>

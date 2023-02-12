@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+button .pressable-sm,
+button.pressable-sm,
+button .pressable,
+button.pressable,
+button .pressable-lg,
+button.pressable-lg {
+	@apply transform transition-transform duration-150;
+}
+
+button:active .pressable-sm,
+button:active.pressable-sm {
+	@apply scale-95;
+}
+button:active .pressable,
+button:active.pressable {
+	@apply scale-90;
+}
+button:active .pressable-lg,
+button:active.pressable-lg {
+	@apply scale-75;
+}

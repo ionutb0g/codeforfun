@@ -8,7 +8,7 @@
 
 <input type="date" class="w-64 h-12 bg-red-50" />
 
-<main class="group p-8">
+<main class="p-8">
 	<div class="w-96 shadow-md rounded-lg p-2">
 		<DatePicker />
 	</div>
