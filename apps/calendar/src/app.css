@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+button {
+	-webkit-tap-highlight-color: transparent;
+}
+
 button:not([disabled]) .pressable-sm,
 button:not([disabled]).pressable-sm,
 button:not([disabled]) .pressable,
