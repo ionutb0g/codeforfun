@@ -1,14 +1,9 @@
 <script lang="ts">
-	import DatePicker from '$lib/components/DatePicker.svelte';
+	import DatePicker from '$lib/components/DatePicker/DatePicker.svelte';
 </script>
 
-<h1>Welcome to Calendar</h1>
-
-<a href="/features" class="text-blue-500 underline">Features</a>
-
-<input type="date" class="w-64 h-12 bg-red-50" />
-
-<main class="p-8">
+<a href="/features" class="text-blue-500 underline p-8">Features</a>
+<main class="p-8 flex items-start gap-8">
 	<div class="w-96 shadow-md rounded-lg p-2">
 		<DatePicker />
 	</div>

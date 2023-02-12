@@ -1,14 +1,27 @@
 <script lang="ts">
 	import { ChevronLeftIcon, ChevronRightIcon } from 'svelte-feather-icons';
-	import { format, getDaysInMonth, startOfMonth, getDay, addMonths, subMonths } from 'date-fns';
-	import ro from 'date-fns/locale/ro/index';
+	import {
+		format,
+		getDaysInMonth,
+		startOfMonth,
+		getDay,
+		addMonths,
+		subMonths,
+		eachDayOfInterval,
+		startOfWeek,
+		endOfWeek
+	} from 'date-fns';
 	import { range, reversedRange } from '$lib/utils/range';
 	import DayButton from './DayButton.svelte';
 	import Button from './Button.svelte';
 	import IconButton from './IconButton.svelte';
-	import Pressable from './Pressable.svelte';
 
 	let currentMonth = new Date();
+
+	$: daysOfWeek = eachDayOfInterval({
+		start: startOfWeek(currentMonth),
+		end: endOfWeek(currentMonth)
+	}).map((day) => format(day, 'EEEEEE'));
 
 	$: numberOfDays = getDaysInMonth(currentMonth);
 	$: firstDayOfFirstWeek = (getDay(startOfMonth(currentMonth)) + 6) % 7;
@@ -16,7 +29,7 @@
 	$: numberOfDaysOfPreviousMonth = getDaysInMonth(subMonths(currentMonth, 1));
 	$: numberOfDaysLeftFromNextMonth = (7 - ((numberOfDays + firstDayOfFirstWeek) % 7)) % 7;
 
-	$: currentDate = format(currentMonth, 'MMMM yyyy', { locale: ro });
+	$: currentDate = format(currentMonth, 'MMMM yyyy');
 </script>
 
 <div class="divide-y">
@@ -32,13 +45,9 @@
 		</IconButton>
 	</header>
 	<div class="p-4 grid grid-cols-7 gap-1 place-items-center text-xs">
-		<div class="text-slate-700">Lu</div>
-		<div class="text-slate-700">Ma</div>
-		<div class="text-slate-700">Mi</div>
-		<div class="text-slate-700">Jo</div>
-		<div class="text-slate-700">Vi</div>
-		<div class="text-slate-700">Sa</div>
-		<div class="text-slate-700">Du</div>
+		{#each daysOfWeek as day}
+			<div class="text-slate-700 capitalize">{day}</div>
+		{/each}
 
 		<div class="col-span-7 my-2" />
 
