@@ -1,44 +1,36 @@
 <script lang="ts">
-	import { range, reversedRange } from '$lib/utils/range';
-	import { getDay, getDate, getDaysInMonth, startOfMonth, subMonths, isSameMonth } from 'date-fns';
+	import { addDays, getDate, isSameMonth, startOfDay } from 'date-fns';
 	import { createEventDispatcher } from 'svelte';
 	import DayButton from './DayButton.svelte';
 	import DaysOfWeekHeader from './DaysOfWeekHeader.svelte';
+	import { getDayInMonth, getDaysOfMonth, type DayOfMonth } from './utils';
 
 	export let currentMonth: Date;
-	export let initialDay: Date;
+	export let selectedDate: Date;
 	const dispatch = createEventDispatcher<{ select: Date }>();
 
-	let selectedDate = initialDay;
-
 	$: selectedDay = getDate(selectedDate);
+	$: daysOfMonth = getDaysOfMonth(currentMonth);
 
-	$: numberOfDays = getDaysInMonth(currentMonth);
-	$: firstDayOfFirstWeek = (getDay(startOfMonth(currentMonth)) + 6) % 7;
+	$: isDaySelected = ({ day, isDecorative }: DayOfMonth) =>
+		day === selectedDay && isSameMonth(currentMonth, selectedDate) && !isDecorative;
 
-	$: numberOfDaysOfPreviousMonth = getDaysInMonth(subMonths(currentMonth, 1));
-	$: numberOfDaysLeftFromNextMonth = (7 - ((numberOfDays + firstDayOfFirstWeek) % 7)) % 7;
+	function select(day: number) {
+		dispatch('select', getDayInMonth(day, currentMonth));
+	}
 </script>
 
-{#key currentMonth}
-	<div class="p-4 flex flex-col gap-4 text-xs">
-		<DaysOfWeekHeader />
+<div class="p-4 flex flex-col gap-4 text-xs">
+	<DaysOfWeekHeader />
 
-		<div class="grid grid-cols-7 gap-1 place-items-center">
-			{#each reversedRange(firstDayOfFirstWeek) as i}
-				<DayButton disabled day={numberOfDaysOfPreviousMonth - i} />
-			{/each}
-
-			{#each range(numberOfDays) as i}
-				<DayButton
-					day={i + 1}
-					isSelected={i + 1 === selectedDay && isSameMonth(currentMonth, selectedDate)}
-				/>
-			{/each}
-
-			{#each range(numberOfDaysLeftFromNextMonth) as i}
-				<DayButton disabled day={i + 1} />
-			{/each}
-		</div>
+	<div class="grid grid-cols-7 gap-1 place-items-center">
+		{#each daysOfMonth as { day, isDecorative }}
+			<DayButton
+				{day}
+				disabled={isDecorative}
+				isSelected={isDaySelected({ day, isDecorative })}
+				on:click={() => select(day)}
+			/>
+		{/each}
 	</div>
-{/key}
+</div>
