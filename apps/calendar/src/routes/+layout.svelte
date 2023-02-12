@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
 	import { setDefaultOptions } from 'date-fns';
-	import ro from 'date-fns/locale/ro';
+	import ro from 'date-fns/locale/ro/index';
 	// import en from 'date-fns/locale/en-US';
 	setDefaultOptions({ locale: ro, weekStartsOn: 1 });
 </script>
