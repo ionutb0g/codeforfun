@@ -1,15 +1,11 @@
-<script lang="ts">
-	import DatePicker from '$lib/components/DatePicker/DatePicker.svelte';
+<script>
+	import Calendar from '$lib/components/Calendar/Calendar.svelte';
 </script>
 
-<a href="/features" class="text-blue-500 underline p-8">Features</a>
-<input type="date" name="" id="" />
-<main class="p-8 flex items-start gap-8">
-	<div class="w-96 shadow-md rounded-lg p-2">
-		<DatePicker
-			on:pick={({ detail }) => {
-				console.log(detail);
-			}}
-		/>
+<a href="/stories" class="text-blue-500 underline p-8">Stories</a>
+
+<main class="p-8">
+	<div class="shadow-md rounded-lg p-2">
+		<Calendar />
 	</div>
 </main>
