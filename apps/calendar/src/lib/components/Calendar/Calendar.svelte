@@ -1,10 +1,34 @@
-<script>
+<script lang="ts">
 	import { range } from '$lib/utils/range';
+	import { format, parse } from 'date-fns';
 	import Day from './Day.svelte';
+	import { type ICalendarEvent, events } from './dummy-events';
+
+	const eventsGroupedByDays = new Map<string, Set<ICalendarEvent>>();
+
+	function formatKey(date: Date) {
+		return format(date, 'dd-MM-yyyy');
+	}
+
+	function parseKey(key: string) {
+		return parse(key, 'dd-MM-yyyy', new Date());
+	}
+
+	function update(date: Date, event: ICalendarEvent) {
+		const key = formatKey(date);
+		const value = eventsGroupedByDays.get(key);
+
+		eventsGroupedByDays.set(key, value?.add(event) ?? new Set([event]));
+	}
+
+	for (const event of events) {
+		update(event.startAt, event);
+		update(event.endAt, event);
+	}
 </script>
 
-<div>
-	<header class="flex px-4 py-2 gap-4 border-b">
+<div class="relative">
+	<header class="flex px-4 py-2 gap-4 border-b sticky top-0 z-10 bg-white">
 		<div class="w-24" />
 		<div class="flex-1 grid grid-cols-[repeat(24,_minmax(0,_1fr))] text-2xs font-bold">
 			{#each range(23) as hour}
@@ -22,17 +46,8 @@
 		</div>
 	</header>
 	<ul class="flex flex-col divide-y">
-		<Day day={14} weekDay="marți" />
-		<Day day={15} weekDay="miercuri" />
-		<Day day={16} weekDay="joi" />
-		<Day day={17} weekDay="vineri" />
-		<Day day={18} weekDay="sâmbătă" />
-		<Day day={19} weekDay="duminică" />
+		{#each Array.from(eventsGroupedByDays.entries()) as [key, value]}
+			<Day day={parseKey(key)} events={Array.from(value)} />
+		{/each}
 	</ul>
 </div>
-
-<style>
-	.x {
-		background-color: #fcd34d;
-	}
-</style>
